@@ -15,12 +15,30 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins for simplicity, adjust as needed
 api = Api(app)
 
+# Ensure the app is running in production mode
+app.config['ENV'] = 'production'
+app.config['DEBUG'] = False
+app.config['TESTING'] = False
+
 # Database Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 migrate = Migrate(app, db)  
+
+# Error handling to return JSON responses
+@app.errorhandler(400)
+def bad_request(error):
+    return jsonify({'message': 'Bad Request'}), 400
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({'message': 'Not Found'}), 404
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return jsonify({'message': 'Internal Server Error'}), 500
 
 # User Registration
 class Register(Resource):
@@ -255,4 +273,4 @@ api.add_resource(UsersAPI, '/users')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)  # Ensure debug is set to False for production
