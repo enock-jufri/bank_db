@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS  
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import User, Transaction, db
+from lib.models import User, Transaction, db
 from datetime import datetime
 from daraja import stk_push
 import uuid  # Add this import
