@@ -6,7 +6,7 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from lib.models import User, Transaction, db
 from datetime import datetime
-from daraja import stk_push
+from lib.daraja import stk_push
 import uuid  # Add this import
 import random
 import os
