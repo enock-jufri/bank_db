@@ -236,6 +236,12 @@ class MpesaStkPush(Resource):
         else:
             return {'message': 'Payment Failed'}, 400
 
+# Fetch All Users
+class UsersAPI(Resource):
+    def get(self):
+        users = User.query.all()
+        return {'users': [user.to_dict() for user in users]}, 200
+
 # Routes
 api.add_resource(Register, '/register')
 api.add_resource(Login, '/login')
@@ -245,6 +251,8 @@ api.add_resource(TransactionSummaryAPI, '/user/<string:username>/transaction-sum
 api.add_resource(TransactionHistoryAPI, '/user/<string:username>/transactions')
 api.add_resource(MpesaCallback, '/mpesa/callback')
 api.add_resource(MpesaStkPush, '/mpesa/stkpush')
+api.add_resource(UsersAPI, '/users')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
